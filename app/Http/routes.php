@@ -11,11 +11,29 @@
 |
 */
 
+/* RUTAS PÚBLICAS*/
 Route::get('/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+Route::get('home', array('as'=>'home','uses'=>'HomeController@index'));
 
+/* RUTAS DE AUTENTICACIÓN */
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+/* RUTAS DE USUARIO*/
+Route::group(['prefix'=>'profile','middleware'=>['auth'], 'namespace'=>'Profile'], function(){
+
+	Route::resource('/','ProfileController');
+});
+
+/*RUTAS DE ADMINISTRADOR*/
+Route::group(['prefix'=>'admin','middleware'=>['auth','is_admin'], 'namespace'=>'Admin'], function(){
+
+	Route::get('/',array('as'=>'admin','uses'=>'AdminController@index'));
+	Route::resource('squadrons','SquadronsController');
+	Route::resource('users','UsersController');
+
+
+});

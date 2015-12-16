@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Laravel</title>
+	<title>ROSTER E-111</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
@@ -28,23 +28,29 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Laravel</a>
+				<a class="navbar-brand" href="#">ROSTER E-111</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Home</a></li>
+					<li><a href="{{ url('/') }}">Inicio</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
+
 					@if (Auth::guest())
-						<li><a href="{{ url('/auth/login') }}">Login</a></li>
-						<li><a href="{{ url('/auth/register') }}">Register</a></li>
+						<li><a href="{{ url('/auth/login') }}">Entrar</a></li>
+						<!--<li><a href="{{ url('/auth/register') }}">Register</a></li>-->
 					@else
+
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->profile->callsign }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+								@if(Auth::user()->isAdmin())
+									<li><a href="{{ url('/admin/') }}">Administración</a></li>
+								@endif
+								<li><a href="{{ url('profile') }}">Perfil</a></li>
+								<li><a href="{{ url('/auth/logout') }}">Salir</a></li>
 							</ul>
 						</li>
 					@endif
